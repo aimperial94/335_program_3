@@ -1,0 +1,68 @@
+  Visited = new bool[n];
+  // set it all to False
+  for(i=0; i<n; i++)
+    Visited[i] = false;
+  
+  // calculate the starting vertex A
+  A = farthest_point(n,P);
+
+	  max_dist = 0;
+	  int i, j, fPoint;
+	  float dist;
+	  
+	  for(i=0; i < n-1; i++)
+	    for(j=0; j < n;j++) {
+	      dist = abs(P[i].x - P[j].x) + abs(P[i].y - P[j].y);
+	      if (max_dist < dist)
+	      {
+		max_dist = dist;
+		fPoint = i;
+	      }
+	    }
+	  return i;
+
+  // add it to the path
+  i=0;
+  M[i]= A;
+  
+  // set it as visited
+  Visited[A] = true;
+  
+  for(i=1; i<n; i++) {
+    // calculate the nearest unvisited neighbor from node A
+    B = nearest(n, P, A, Visited);
+
+	  float ndist = max_dist;
+	  int i, nPoint;
+	  float dist;
+
+	  for(i = 0; i < n; ++i)
+	  {
+		  if(Visited[i] == false)
+		  {
+			dist = abs(P[A].x - P[i].x) + abs(P[A].y - P[i].y);
+			if(dist <= nDist)
+			{
+				nDist = dist;
+				nPoint = i;		
+			}
+		  
+		  }
+	  }
+	  return nPoint;
+
+    // node B becomes the new node A
+    A = B;
+    // add it to the path
+    M[i] = A;
+    Visited[A]=true;
+  }
+  
+  // calculate the length of the Hamiltonian cycle
+  dist = 0;
+  for (i=0; i < n-1; i++) 
+    dist += abs(P[M[i]].x - P[M[i+1]].x) + abs(P[M[i]].y - P[M[i+1]].y);
+
+  dist += abs(P[M[0]].x - P[M[n-1]].x) + abs(P[M[0]].y - P[M[n-1]].y);
+  
+
