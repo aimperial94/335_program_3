@@ -16,6 +16,7 @@ struct point2D {
   float x; // x coordinate
   float y; // y coordinate
 };
+int counter = 0;
 
 void print_cycle(int, point2D*, int*);
 // function to print a cyclic sequence of 2D points in 2D plane, given the 
@@ -139,6 +140,8 @@ float farthest(int n, point2D *P)
 void print_perm(int n, int *A, int sizeA, point2D *P, int *bestSet, float &bestDist) 
 // function to generate the permutation of indices of the list of points
 {
+  ++counter;
+  cout << "print_perm called n:" << n << " counter:" << counter << endl;
   int i;
   float dist = 0;
   

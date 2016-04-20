@@ -1,3 +1,5 @@
+Name: Andres Imperial
+
 Given:
 	coordinate struct -- p
 	int array -- bestSet A
@@ -6,77 +8,78 @@ Given:
 
 Psuedo Code:
 
-1:  Dist = farthest(n,P);
+1:  Dist = farthest(n,P)
 
 1:	  float max_dist = 0
 2:	  int i, j
 1:	  float dist
 	  
 n-1:	  for i 0 to n-2 
-n:	    for j to n-1 
+n:	    for j 0 to n-1 
 1:	      dist = abs(P[i].x - P[j].x) + abs(P[i].y - P[j].y)
 1:	      if max_dist < dist
-1:	    	max_dist = dist;
+1:	    	max_dist = dist
 
-1:	  return max_dist;
+1:	  return max_dist
 
-  bestDist = n*Dist;
+1:  bestDist = n*Dist
   
-  // populate the starting array for the permutation algorithm
-  A = new int[n];
-  // populate the array A with the values in the range 0 .. n-1
-  for(i=0; i<n; i++)
-    A[i] = i;
+    // populate the starting array for the permutation algorithm
+1:  A = int array size n
+    // populate the array A with the values in the range 0 .. n-1
+n:  for i 0 to n-1 
+1:    A[i] = i
   
-  // calculate the Hamiltonian cycle of minimum weight
-  print_perm(n, A, n, P, bestSet, bestDist);
+     // calculate the Hamiltonian cycle of minimum weight
+n!:  print_perm(n, A, n, P, bestSet, bestDist);
  
-	  int i;
-	  float dist = 0;
+1:	  int i
+1:	  float dist = 0
 	  
-	  if (n == 1) 
-	  {
+1:	  if n == 1 
 	    // we obtain a permutation so we compare it against the current shortest
 	    // Hamiltonian cycle
-	    // YOU NEED TO COMPLETE THIS PART
-	    int j = 1;
-	    for(int i = 0; i < sizeA; ++i, ++j)
-	    {
-		    if(j == sizeA)
-			    j = 0;
+1:	    int j = 1
+sizeA:	    for i 0 to sizeA-1 and j 1 to sizeA-1
+1:		    if(j == sizeA)
+1:			    j = 0
 
-		    dist += abs(P[A[i]].x - P[A[j]].x) + abs(P[A[i]].y - P[A[j]].y);
+1:		    dist += abs(P[A[i]].x - P[A[j]].x) + abs(P[A[i]].y - P[A[j]].y)
 		    
-	    }
-	    if(dist < bestDist)
-	    {
-		for(int i = 0; i < sizeA; ++i)
-		{
-			bestDist = dist;
-			bestSet[i] = A[i];
-		}
-	    }
-	  }
-	  else 
-	  {
-	    for(i = 0 ; i< n-1; i++) 
-	    {
-	      print_perm(n - 1, A, sizeA, P, bestSet, bestDist);
-	      if (n%2 == 0)
-	      {
-	      // swap(A[i], A[n-1])
-	      int temp = A[i];
-	      A[i] = A[n-1];
-	      A[n-1]=temp;
-	      }
+1:	    if dist < bestDist
+sizeA:		for i 0 to sizeA-1
+1:			bestDist = dist
+1:			bestSet[i] = A[i]
+          else 
+n-1:   	    for i 0 to n-2 
+n!:	      print_perm(n - 1, A, sizeA, P, bestSet, bestDist);
+1:	      if n%2 == 0
+	        // swap(A[i], A[n-1])
+1:	        int temp = A[i]
+1:	        A[i] = A[n-1]
+1:	        A[n-1]=temp
 	      else
-	      {
-	      // swap(A[0], A[n-1])
-	      int temp = A[0];
-	      A[0] = A[n-1];
-	      A[n-1]=temp;
-	      }
-	    }
-	    print_perm(n - 1, A, sizeA, P, bestSet, bestDist);
-	  }
+	        // swap(A[0], A[n-1])
+1:	        int temp = A[0]
+1:	        A[0] = A[n-1]
+1:	        A[n-1]=temp
 
+n!:	    print_perm(n - 1, A, sizeA, P, bestSet, bestDist)
+
+1 + 1 + 2 + 1 + (n-1)(n)(1 + 1 + 1) + 1 + 1 + 1 + n(1) + n! + 1 + 1 + 1 + max((1 + sizeA(1 + 1 + 1) + 1 + sizeA(1 + 1)), ((n-1)(n! + 1 + (1 + 1 + 1)) + n!)) 
+
+5 + (n^2 - n)(3) + 3 + n + n! 3 + max((2 + 3sizeA + 2sizeA), ((n-1)(n! + 4) + n!))
+
+11 + 3n^2 - 3n + n + n! + max((5sizeA + 2), (n*n! - n! + 4n - 4 + n!))
+
+3n^2 - 3n + n + 11 + n*n! + 4n - 4 
+
+n*n! + 3n^2 + 2n + 7
+
+where f(n) = n*n! + 3n^2 + 2n + 7 and g(n) = n*n!
+as n approaches infinity f(n)/g(n) >= 0
+(n*n! + 3n^2 + 2n + 7)/n*n! >= 0
+(3n^2 + 2n + 7)/n*n! >= 0
+as n approaches infinity 0 >= 0 
+
+therefore n*n! + 3n^2 + 2n + 7 E O(n*n!)

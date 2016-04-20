@@ -1,68 +1,80 @@
-  Visited = new bool[n];
-  // set it all to False
-  for(i=0; i<n; i++)
-    Visited[i] = false;
-  
-  // calculate the starting vertex A
-  A = farthest_point(n,P);
+Name: Andres Imperial
 
-	  max_dist = 0;
-	  int i, j, fPoint;
-	  float dist;
+Given:
+coordinate structure -- P
+bool array -- Visited
+int -- i, n, A, B
+float -- dist
+
+1:  Visited = new bool[n]
+    // set it all to False
+n:  for i 0 to n
+1:    Visited[i] = false
+  
+    // calculate the starting vertex A
+1:  A = farthest_point(n,P)
+
+1:	  max_dist = 0
+3:	  int i, j, fPoint
+1:	  float dist
 	  
-	  for(i=0; i < n-1; i++)
-	    for(j=0; j < n;j++) {
-	      dist = abs(P[i].x - P[j].x) + abs(P[i].y - P[j].y);
-	      if (max_dist < dist)
-	      {
-		max_dist = dist;
-		fPoint = i;
-	      }
-	    }
-	  return i;
+n-1:	  for i 0 to n-2
+n:	    for j 0 to n-1
+1:	      dist = abs(P[i].x - P[j].x) + abs(P[i].y - P[j].y)
+1:	      if (max_dist < dist)
+1:		max_dist = dist
+1:		fPoint = i;
+1: 	return i;
 
-  // add it to the path
-  i=0;
-  M[i]= A;
-  
-  // set it as visited
-  Visited[A] = true;
-  
-  for(i=1; i<n; i++) {
-    // calculate the nearest unvisited neighbor from node A
-    B = nearest(n, P, A, Visited);
-
-	  float ndist = max_dist;
-	  int i, nPoint;
-	  float dist;
-
-	  for(i = 0; i < n; ++i)
-	  {
-		  if(Visited[i] == false)
-		  {
-			dist = abs(P[A].x - P[i].x) + abs(P[A].y - P[i].y);
-			if(dist <= nDist)
-			{
-				nDist = dist;
-				nPoint = i;		
-			}
-		  
-		  }
-	  }
-	  return nPoint;
-
-    // node B becomes the new node A
-    A = B;
     // add it to the path
-    M[i] = A;
-    Visited[A]=true;
-  }
+1:  i=0;
+1:  M[i]= A;
   
-  // calculate the length of the Hamiltonian cycle
-  dist = 0;
-  for (i=0; i < n-1; i++) 
-    dist += abs(P[M[i]].x - P[M[i+1]].x) + abs(P[M[i]].y - P[M[i+1]].y);
-
-  dist += abs(P[M[0]].x - P[M[n-1]].x) + abs(P[M[0]].y - P[M[n-1]].y);
+    // set it as visited
+1:  Visited[A] = true
   
+n-1: for i 1 to n-1 
+      // calculate the nearest unvisited neighbor from node A
+1:    B = nearest(n, P, A, Visited)
 
+1:	  float ndist = max_dist
+2:	  int i, nPoint
+1:	  float dist
+
+n:	  for i 0 to n-1
+1:		  if Visited[i] == false
+1:			dist = abs(P[A].x - P[i].x) + abs(P[A].y - P[i].y)
+1:			if dist <= nDist
+1:				nDist = dist
+1:				nPoint = i	
+		  
+1:	  return nPoint
+
+      // node B becomes the new node A
+1:    A = B
+      // add it to the path
+1:    M[i] = A
+1:    Visited[A]=true
+  
+    // calculate the length of the Hamiltonian cycle
+1:  dist = 0
+n-1: for i 0 to n-2
+1:      dist += abs(P[M[i]].x - P[M[i+1]].x) + abs(P[M[i]].y - P[M[i+1]].y)
+
+1:  dist += abs(P[M[0]].x - P[M[n-1]].x) + abs(P[M[0]].y - P[M[n-1]].y)
+  
+1 + n(1) + 1 + 1 + 3 + 1 + (n-1)(n)(1+1+1+1) + 1 + 1 + 1 + 1 + (n-1)(1+ 1 + 2 + 1 + n(1+1+1+1+1) + 1) + 1 + 1 + 1 + 1 + (n-1)(1) + 1
+
+7 + n + (n^2 - n)(4) + 4 + (n-1)(6 + 5n) + 4 + n)
+
+7 + n + 4n^2 - 4n + 4 + 5n^2 + n - 6 + 4 + n
+
+9n^2 - n + 9
+
+g(n) E O(n^2) where g(n) = n^2 + 3n + 13
+9n^2 - n + 9 <= c * n^2
+c = 17 n(subscript 0) = 1
+9(1)^2 - 1 + 9 <= 17 * 1^2
+17 <= 17 for all n >= n(subscript 0)
+
+yes g(n) E O(n^2)
